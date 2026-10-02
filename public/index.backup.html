@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechVerse Gear - Modern Hardware & Developer Setup Hub</title>
+  
+  <!-- Tailwind CSS & FontAwesome Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"Fira Code"', 'monospace']
+          },
+          colors: {
+            tech: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              500: '#0284c7',
+              600: '#0284c7',
+              700: '#0369a1',
+              900: '#0c4a6e',
+              accent: '#6366f1'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.05);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.4);
+      border-radius: 4px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: rgba(51, 65, 85, 0.6);
+    }
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+    }
+    .dark .glass-effect {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-full flex flex-col font-sans transition-colors duration-200 selection:bg-sky-500 selection:text-white">
+
+  <header class="sticky top-0 z-40 glass-effect border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        
+        <!-- Logo -->
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="switchMainTab('store')">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 via-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-sky-500/25">
+            <i class="fa-solid fa-microchip text-xl"></i>
+          </div>
+          <div>
+            <span class="text-xl font-extrabold bg-gradient-to-r from-sky-600 via-indigo-600 to-purple-600 dark:from-sky-400 dark:via-indigo-400 dark:to-purple-400 bg-clip-text text-transparent tracking-tight">TECHVERSE</span>
+            <span class="text-[10px] block text-slate-500 dark:text-slate-400 font-bold tracking-widest uppercase -mt-1">Gear & Cloud Ops</span>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="hidden md:flex items-center space-x-1 bg-slate-200/60 dark:bg-slate-900/80 p-1.5 rounded-2xl border border-slate-300/50 dark:border-slate-800">
+          <button id="nav-btn-store" onclick="switchMainTab('store')" class="px-4 py-2 text-xs font-bold rounded-xl transition-all text-sky-600 dark:text-sky-400 bg-white dark:bg-slate-800 shadow-sm flex items-center gap-2">
+            <i class="fa-solid fa-store"></i> Storefront
+          </button>
+          <button id="nav-btn-orders" onclick="switchMainTab('orders')" class="px-4 py-2 text-xs font-bold rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 flex items-center gap-2">
+            <i class="fa-solid fa-receipt"></i> Orders & Tracking
+          </button>
+          <button id="nav-btn-hub" onclick="switchMainTab('hub')" class="px-4 py-2 text-xs font-bold rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 flex items-center gap-2">
+            <i class="fa-solid fa-server"></i> Backend Hub
+          </button>
+        </nav>
+
+        <!-- Right Side Controls -->
+        <div class="flex items-center space-x-3">
+          <!-- Dark Mode Toggle -->
+          <button onclick="toggleTheme()" class="p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition" title="Toggle Theme">
+            <i id="theme-toggle-icon" class="fa-solid fa-moon text-base"></i>
+          </button>
+
+          <!-- Cart Drawer Button -->
+          <button onclick="toggleCartDrawer()" class="relative p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+            <i class="fa-solid fa-bag-shopping text-lg"></i>
+            <span id="cart-counter-badge" class="hidden absolute -top-1 -right-1 bg-sky-500 text-white text-[10px] font-extrabold rounded-full w-5 h-5 flex items-center justify-center animate-bounce">0</span>
+          </button>
+
+          <!-- User Google OAuth State -->
+          <div id="user-auth-widget">
+            <!-- Populated via JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Sub-navigation -->
+  <div class="md:hidden bg-slate-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-2.5 flex justify-around">
+    <button onclick="switchMainTab('store')" class="text-xs font-bold text-sky-600 dark:text-sky-400 flex items-center gap-1.5">
+      <i class="fa-solid fa-store"></i> Shop
+    </button>
+    <button onclick="switchMainTab('orders')" class="text-xs font-bold text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
+      <i class="fa-solid fa-receipt"></i> Orders
+    </button>
+    <button onclick="switchMainTab('hub')" class="text-xs font-bold text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
+      <i class="fa-solid fa-server"></i> Cloud Hub
+    </button>
+  </div>
+
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- VIEW 1: STOREFRONT & CATALOG -->
+    <section id="view-store" class="space-y-8">
+      
+      <!-- Hero Banner -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-8 sm:p-12 shadow-2xl border border-slate-800">
+        <div class="relative z-10 max-w-2xl space-y-4">
+          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/20 text-sky-400 text-xs font-mono font-bold tracking-wide border border-sky-500/30">
+            <i class="fa-solid fa-sparkles"></i> High-Performance Hardware
+          </span>
+          <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+            Next-Gen Developer Gear & Workstation Components.
+          </h1>
+          <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+            Curated mechanical keyboards, ultra-wide color-calibrated monitors, studio mics, and ergonomic gear built for modern engineers.
+          </p>
+        </div>
+        <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
+      </div>
+
+      <!-- Filter Controls & Search -->
+      <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+        
+        <!-- Search Input -->
+        <div class="relative w-full md:w-80">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+          <input type="text" id="search-bar" oninput="filterProducts()" placeholder="Search hardware, audio, gear..." 
+                 class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm">
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+          <!-- Category Selector Buttons -->
+          <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 md:pb-0">
+            <button onclick="setCategoryFilter('all')" id="cat-btn-all" class="cat-pill px-3.5 py-1.5 text-xs font-bold rounded-xl bg-sky-600 text-white shadow-sm transition">All</button>
+            <button onclick="setCategoryFilter('Keyboards')" id="cat-btn-Keyboards" class="cat-pill px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">Keyboards</button>
+            <button onclick="setCategoryFilter('Audio')" id="cat-btn-Audio" class="cat-pill px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">Audio</button>
+            <button onclick="setCategoryFilter('Displays')" id="cat-btn-Displays" class="cat-pill px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">Displays</button>
+            <button onclick="setCategoryFilter('Accessories')" id="cat-btn-Accessories" class="cat-pill px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">Accessories</button>
+          </div>
+
+          <!-- Price Sort -->
+          <select id="sort-dropdown" onchange="filterProducts()" class="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <option value="featured">Featured Order</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="rating">Top Rated</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Product Catalog Grid -->
+      <div id="catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Products populated dynamically -->
+      </div>
+    </section>
+
+    <section id="view-checkout" class="hidden space-y-6">
+      <div class="flex items-center space-x-3 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <button onclick="switchMainTab('store')" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <h2 class="text-2xl font-extrabold tracking-tight">Checkout Process</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Checkout Steps Container -->
+        <div class="lg:col-span-7 space-y-6">
+          
+          <!-- Stepper Indicator -->
+          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
+            <div id="checkout-step-indicator-1" class="flex items-center space-x-2 text-sky-600 dark:text-sky-400 font-bold text-xs">
+              <span class="w-6 h-6 rounded-full bg-sky-600 text-white flex items-center justify-center text-[10px]">1</span>
+              <span>1. Shipping</span>
+            </div>
+            <div class="h-0.5 flex-grow bg-slate-200 dark:bg-slate-800 mx-3"></div>
+            <div id="checkout-step-indicator-2" class="flex items-center space-x-2 text-slate-400 font-bold text-xs">
+              <span class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 flex items-center justify-center text-[10px]">2</span>
+              <span>2. Payment</span>
+            </div>
+            <div class="h-0.5 flex-grow bg-slate-200 dark:bg-slate-800 mx-3"></div>
+            <div id="checkout-step-indicator-3" class="flex items-center space-x-2 text-slate-400 font-bold text-xs">
+              <span class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 flex items-center justify-center text-[10px]">3</span>
+              <span>3. Review</span>
+            </div>
+          </div>
+
+          <!-- STEP 1: Shipping Details Form -->
+          <div id="checkout-step-1" class="space-y-4 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i class="fa-solid fa-truck-fast text-sky-500"></i> Shipping Address
+            </h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">First Name</label>
+                <input type="text" id="ship-first-name" value="Caleb" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Last Name</label>
+                <input type="text" id="ship-last-name" value="Developer" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Email Address (For Mailgun Confirmation)</label>
+              <input type="email" id="ship-email-addr" value="caleb@example.com" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Delivery Address</label>
+              <input type="text" id="ship-street" value="742 Market Street, Suite 500" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+            </div>
+            <div class="grid grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">City</label>
+                <input type="text" id="ship-city-name" value="San Francisco" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">State</label>
+                <input type="text" id="ship-state-code" value="CA" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">ZIP Code</label>
+                <input type="text" id="ship-zip-code" value="94103" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+              </div>
+            </div>
+            <button onclick="gotoStep(2)" class="w-full py-3 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl transition shadow-lg shadow-sky-600/20 text-sm mt-2">
+              Proceed to Payment <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+
+          <!-- STEP 2: Payment Method Form -->
+          <div id="checkout-step-2" class="hidden space-y-4 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i class="fa-solid fa-credit-card text-sky-500"></i> Payment Details
+            </h3>
+            <div class="space-y-3">
+              <label class="flex items-center justify-between p-3.5 border rounded-xl cursor-pointer transition border-sky-500 bg-sky-50/50 dark:bg-sky-950/20">
+                <div class="flex items-center space-x-3">
+                  <input type="radio" name="pay-option" checked class="text-sky-600 focus:ring-sky-500">
+                  <i class="fa-solid fa-credit-card text-sky-600 text-base"></i>
+                  <span class="font-bold text-xs">Credit / Debit Card</span>
+                </div>
+                <div class="flex space-x-2 text-slate-400 text-base">
+                  <i class="fa-brands fa-cc-visa"></i>
+                  <i class="fa-brands fa-cc-mastercard"></i>
+                </div>
+              </label>
+            </div>
+
+            <div class="pt-2 space-y-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Card Number</label>
+                <input type="text" value="4242 •••• •••• 4242" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Expiry Date</label>
+                  <input type="text" value="11 / 28" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">CVV</label>
+                  <input type="text" value="988" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+                </div>
+              </div>
+            </div>
+
+            <div class="flex space-x-3 mt-4">
+              <button onclick="gotoStep(1)" class="w-1/3 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-xl hover:bg-slate-200 transition">
+                Back
+              </button>
+              <button onclick="gotoStep(3)" class="w-2/3 py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl transition shadow-lg shadow-sky-600/20">
+                Review Order <i class="fa-solid fa-arrow-right ml-1"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 3: Final Review Form -->
+          <div id="checkout-step-3" class="hidden space-y-4 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i class="fa-solid fa-clipboard-check text-sky-500"></i> Final Order Review
+            </h3>
+            
+            <div class="p-4 bg-slate-50 dark:bg-slate-950 rounded-xl space-y-1.5 text-xs border border-slate-200 dark:border-slate-800">
+              <div class="flex justify-between text-slate-400 font-semibold">
+                <span>Shipping Destination:</span>
+                <button onclick="gotoStep(1)" class="text-sky-500 hover:underline">Edit</button>
+              </div>
+              <p id="checkout-review-address" class="font-bold text-slate-800 dark:text-slate-200"></p>
+            </div>
+
+            <div class="p-4 bg-slate-50 dark:bg-slate-950 rounded-xl space-y-2 text-xs border border-slate-200 dark:border-slate-800">
+              <span class="font-bold text-sky-500 block"><i class="fa-solid fa-network-wired"></i> Simulated Cloud Services Flow:</span>
+              <ul class="list-disc list-inside text-slate-500 dark:text-slate-400 space-y-1">
+                <li>SQL Insert command executed against <b>Supabase / Neon Postgres</b></li>
+                <li>Transactional Mailgun API triggers receipt email dispatch</li>
+              </ul>
+            </div>
+
+            <div class="flex space-x-3 mt-4">
+              <button onclick="gotoStep(2)" class="w-1/3 py-3 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-xl hover:bg-slate-200 transition">
+                Back
+              </button>
+              <button id="place-order-submit-btn" onclick="executeOrderSubmission()" class="w-2/3 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl transition shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-lock"></i> Authorize & Submit Order
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Side Summary -->
+        <div class="lg:col-span-5">
+          <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm sticky top-24 space-y-4">
+            <h3 class="font-bold text-sm border-b border-slate-200 dark:border-slate-800 pb-3">Items in Order</h3>
+            <div id="checkout-summary-items" class="space-y-3 max-h-56 overflow-y-auto pr-1">
+              <!-- Dynamically populated -->
+            </div>
+            
+            <div class="border-t border-slate-200 dark:border-slate-800 pt-3 space-y-2 text-xs">
+              <div class="flex justify-between text-slate-500">
+                <span>Subtotal</span>
+                <span id="checkout-summary-subtotal" class="font-bold text-slate-800 dark:text-slate-200">$0.00</span>
+              </div>
+              <div class="flex justify-between text-slate-500">
+                <span>Shipping Rate</span>
+                <span class="font-bold text-emerald-500">FREE Express</span>
+              </div>
+              <div class="flex justify-between text-slate-500">
+                <span>Tax (8.5%)</span>
+                <span id="checkout-summary-tax" class="font-bold text-slate-800 dark:text-slate-200">$0.00</span>
+              </div>
+              <div class="flex justify-between text-sm font-extrabold text-slate-900 dark:text-white border-t border-slate-200 dark:border-slate-800 pt-3">
+                <span>Total Amount</span>
+                <span id="checkout-summary-total" class="text-sky-600 dark:text-sky-400">$0.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-orders" class="hidden space-y-6">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
+        <h2 class="text-2xl font-extrabold tracking-tight">Order History & Tracking Receipts</h2>
+        <span class="text-xs bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-3 py-1 rounded-full font-mono font-bold">Supabase Realtime Synced</span>
+      </div>
+
+      <div id="orders-history-list" class="space-y-4">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <section id="view-hub" class="hidden space-y-8">
+      
+      <!-- Hub Header Banner -->
+      <div class="bg-gradient-to-br from-slate-900 via-slate-950 to-indigo-950 text-white p-8 rounded-3xl border border-slate-800 shadow-xl relative overflow-hidden">
+        <div class="relative z-10 max-w-3xl space-y-3">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/20 text-sky-400 text-xs font-mono font-bold">
+            <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span> Live Integration Hub
+          </div>
+          <h2 class="text-3xl font-extrabold tracking-tight">Backend & Cloud Setup Dashboard</h2>
+          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+            Ready-to-use production SQL schemas, Node.js API handlers, Mailgun email templates, and Google OAuth setup checklists for your <b>Supabase / Neon</b> backend deployment.
+          </p>
+        </div>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="flex border-b border-slate-200 dark:border-slate-800 space-x-2 sm:space-x-4 overflow-x-auto">
+        <button onclick="switchHubSection('sql')" id="hub-tab-btn-sql" class="hub-tab-btn py-3 px-4 font-bold text-xs sm:text-sm border-b-2 border-sky-500 text-sky-600 dark:text-sky-400 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-database"></i> 1. Supabase / Neon SQL Schema
+        </button>
+        <button onclick="switchHubSection('mailgun')" id="hub-tab-btn-mailgun" class="hub-tab-btn py-3 px-4 font-bold text-xs sm:text-sm text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-paper-plane"></i> 2. Mailgun API Endpoint
+        </button>
+        <button onclick="switchHubSection('oauth')" id="hub-tab-btn-oauth" class="hub-tab-btn py-3 px-4 font-bold text-xs sm:text-sm text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-brands fa-google"></i> 3. Google OAuth Setup
+        </button>
+      </div>
+
+      <!-- HUB SECTION 1: SQL SCHEMA -->
+      <div id="hub-sec-sql" class="space-y-4">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i class="fa-solid fa-table text-sky-500"></i> PostgreSQL Relational Schema (Supabase / Neon DB)
+            </h3>
+            <button onclick="copyToClipboard('sql-schema-code')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono font-bold rounded-lg border border-slate-700 flex items-center gap-1.5 transition">
+              <i class="fa-regular fa-copy"></i> Copy Script
+            </button>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400">
+            Paste this SQL script into the Supabase SQL Editor or Neon Console to create tables, indexes, foreign key relationships, and automatic timestamp triggers.
+          </p>
+
+          <pre class="bg-slate-950 text-slate-100 p-4 rounded-2xl text-xs font-mono overflow-x-auto leading-relaxed border border-slate-800"><code id="sql-schema-code">-- TechVerse Gear E-Commerce Schema for PostgreSQL (Supabase / Neon)
+
+-- Enable UUID extension
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- 1. Users / Profiles Table (Linked with Google Auth)
+CREATE TABLE IF NOT EXISTS public.profiles (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    google_id VARCHAR(255) UNIQUE,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    full_name VARCHAR(255),
+    avatar_url TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 2. Products Table
+CREATE TABLE IF NOT EXISTS public.products (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title VARCHAR(255) NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    price NUMERIC(10, 2) NOT NULL,
+    rating NUMERIC(2, 1) DEFAULT 5.0,
+    description TEXT,
+    image_url TEXT NOT NULL,
+    stock_quantity INT DEFAULT 100,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 3. Orders Master Table
+CREATE TABLE IF NOT EXISTS public.orders (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
+    customer_email VARCHAR(255) NOT NULL,
+    total_amount NUMERIC(10, 2) NOT NULL,
+    status VARCHAR(50) DEFAULT 'Completed',
+    shipping_address JSONB NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 4. Order Line Items Table
+CREATE TABLE IF NOT EXISTS public.order_items (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    order_id UUID REFERENCES public.orders(id) ON DELETE CASCADE,
+    product_id UUID REFERENCES public.products(id),
+    product_title VARCHAR(255) NOT NULL,
+    quantity INT NOT NULL,
+    unit_price NUMERIC(10, 2) NOT NULL
+);
+
+-- Create Indexes for Query Performance
+CREATE INDEX IF NOT EXISTS idx_products_category ON public.products(category);
+CREATE INDEX IF NOT EXISTS idx_orders_customer_email ON public.orders(customer_email);
+CREATE INDEX IF NOT EXISTS idx_order_items_order_id ON public.order_items(order_id);</code></pre>
+        </div>
+      </div>
+
+      <!-- HUB SECTION 2: MAILGUN INTEGRATION -->
+      <div id="hub-sec-mailgun" class="hidden space-y-4">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i class="fa-solid fa-paper-plane text-red-500"></i> Mailgun Node.js Email Handler
+            </h3>
+            <button onclick="copyToClipboard('mailgun-code-snippet')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono font-bold rounded-lg border border-slate-700 flex items-center gap-1.5 transition">
+              <i class="fa-regular fa-copy"></i> Copy Node Code
+            </button>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400">
+            Node.js / Next.js Serverless Route Handler using official <code class="bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono text-sky-500">mailgun.js</code> SDK to dispatch order receipts.
+          </p>
+
+          <pre class="bg-slate-950 text-slate-100 p-4 rounded-2xl text-xs font-mono overflow-x-auto leading-relaxed border border-slate-800"><code id="mailgun-code-snippet">// api/send-order-confirmation.js
+import formData from 'form-data';
+import Mailgun from 'mailgun.js';
+
+const mailgun = new Mailgun(formData);
+const mg = mailgun.client({
+  username: 'api',
+  key: process.env.MAILGUN_API_KEY || 'key-your-mailgun-api-key',
+});
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') return res.status(405).send('Method Not Allowed');
+
+  const { customerEmail, orderId, items, totalAmount, shippingAddress } = req.body;
+
+  const itemRowsHtml = items.map(item => `
+    &lt;tr style="border-bottom: 1px solid #e2e8f0;"&gt;
+      &lt;td style="padding: 10px 0;"&gt;&lt;b&gt;${item.title}&lt;/b&gt; (x${item.quantity})&lt;/td&gt;
+      &lt;td style="padding: 10px 0; text-align: right;"&gt;$${(item.price * item.quantity).toFixed(2)}&lt;/td&gt;
+    &lt;/tr&gt;
+  `).join('');
+
+  try {
+    const mgResponse = await mg.messages.create(process.env.MAILGUN_DOMAIN, {
+      from: "TechVerse Gear &lt;orders@mg.techversegear.com&gt;",
+      to: [customerEmail],
+      subject: `Order Confirmation #${orderId}`,
+      html: `
+        &lt;div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;"&gt;
+          &lt;h2 style="color: #0284c7; margin-top: 0;"&gt;Thank you for your order!&lt;/h2&gt;
+          &lt;p&gt;Your order &lt;strong&gt;#${orderId}&lt;/strong&gt; has been received and is being processed.&lt;/p&gt;
+          &lt;table style="width: 100%; border-collapse: collapse; font-size: 14px;"&gt;
+            ${itemRowsHtml}
+          &lt;/table&gt;
+          &lt;h3 style="text-align: right; color: #0284c7; margin-top: 20px;"&gt;Total Amount Paid: $${parseFloat(totalAmount).toFixed(2)}&lt;/h3&gt;
+          &lt;p style="font-size: 12px; color: #64748b;"&gt;Shipping to: ${shippingAddress}&lt;/p&gt;
+        &lt;/div&gt;
+      `
+    });
+
+    return res.status(200).json({ success: true, messageId: mgResponse.id });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}</code></pre>
+        </div>
+      </div>
+
+      <!-- HUB SECTION 3: GOOGLE OAUTH SETUP -->
+      <div id="hub-sec-oauth" class="hidden space-y-4">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i class="fa-brands fa-google text-blue-500"></i> Google Cloud Console OAuth 2.0 Checklist
+            </h3>
+            <button onclick="copyToClipboard('oauth-frontend-code')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono font-bold rounded-lg border border-slate-700 flex items-center gap-1.5 transition">
+              <i class="fa-regular fa-copy"></i> Copy Auth JS
+            </button>
+          </div>
+
+          <!-- Step-by-step interactive list -->
+          <div class="space-y-3 text-xs text-slate-600 dark:text-slate-300">
+            <div class="p-4 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
+              <h4 class="font-bold text-slate-900 dark:text-white text-sm">Google Cloud Console Step-by-Step Setup:</h4>
+              <ol class="list-decimal list-inside space-y-1.5 leading-relaxed">
+                <li>Log in to <a href="https://console.cloud.google.com/" target="_blank" class="text-sky-500 underline font-bold">Google Cloud Console</a> and create a new project.</li>
+                <li>Go to <b>APIs & Services</b> &gt; <b>OAuth consent screen</b>. Select <b>External</b>, enter your app name and developer support email.</li>
+                <li>Add scopes: <code class="bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded font-mono">openid</code>, <code class="bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded font-mono">email</code>, <code class="bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded font-mono">profile</code>.</li>
+                <li>Go to <b>Credentials</b> &gt; <b>Create Credentials</b> &gt; <b>OAuth Client ID</b>. Choose <b>Web Application</b>.</li>
+                <li>Set Authorized Redirect URIs for Supabase Auth: <code class="bg-slate-200 dark:bg-slate-800 px-1 py-0.5 rounded font-mono">https://&lt;your-project-ref&gt;.supabase.co/auth/v1/callback</code>.</li>
+              </ol>
+            </div>
+          </div>
+
+          <pre class="bg-slate-950 text-slate-100 p-4 rounded-2xl text-xs font-mono overflow-x-auto leading-relaxed border border-slate-800"><code id="oauth-frontend-code">// Frontend Integration with Supabase Client
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
+
+// Trigger Google SSO Login
+export async function handleGoogleLogin() {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: window.location.origin
+    }
+  });
+  if (error) console.error('OAuth Login Error:', error.message);
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Cart Drawer Overlay & Drawer -->
+  <div id="cart-drawer-container" class="fixed inset-y-0 right-0 z-50 w-full sm:w-96 bg-white dark:bg-slate-900 shadow-2xl border-l border-slate-200 dark:border-slate-800 transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-bag-shopping text-sky-600 dark:text-sky-400 text-lg"></i>
+        <h3 class="font-extrabold text-base text-slate-900 dark:text-white">Shopping Cart</h3>
+      </div>
+      <button onclick="toggleCartDrawer()" class="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+
+    <div id="cart-drawer-items" class="flex-grow p-4 overflow-y-auto space-y-3">
+      <!-- Items dynamically populated -->
+    </div>
+
+    <div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 space-y-3">
+      <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400">
+        <span>Cart Subtotal</span>
+        <span id="cart-drawer-subtotal" class="font-extrabold text-slate-900 dark:text-white">$0.00</span>
+      </div>
+      <button onclick="proceedToCheckoutFlow()" class="w-full py-3 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl transition shadow-lg shadow-sky-600/20 flex items-center justify-center gap-2">
+        Proceed to Checkout <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Product Quick View Modal -->
+  <div id="product-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-xl w-full p-6 relative shadow-2xl border border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in duration-200">
+      <button onclick="closeProductModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center justify-center">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div id="product-modal-body" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- High-Contrast Toast Notification -->
+  <div id="toast-notification" class="fixed bottom-6 right-6 z-50 hidden bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 px-4 py-3 rounded-2xl shadow-2xl border border-slate-700 dark:border-slate-300 flex items-center space-x-3 transition-all duration-300 text-xs font-bold">
+    <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400 dark:text-emerald-600 text-sm"></i>
+    <span id="toast-msg">Toast message</span>
+  </div>
+
+  <script>
+    // --- Application State ---
+    const MOCK_PRODUCTS = [
+      {
+        id: 'prod-001',
+        title: 'Nexus Pro Mechanical Keyboard',
+        category: 'Keyboards',
+        price: 199.99,
+        rating: 4.9,
+        image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80',
+        description: 'Custom hot-swappable mechanical keyboard with CNC aluminum frame, Gateron Oil King switches, and per-key RGB.'
+      },
+      {
+        id: 'prod-002',
+        title: 'Aura Studio Wireless Headphones',
+        category: 'Audio',
+        price: 279.00,
+        rating: 4.8,
+        image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80',
+        description: 'High-fidelity audio with spatial sound processing, active noise-canceling, and 45-hour battery performance.'
+      },
+      {
+        id: 'prod-003',
+        title: 'UltraView 34" Curved Display',
+        category: 'Displays',
+        price: 749.99,
+        rating: 4.9,
+        image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=600&q=80',
+        description: '144Hz 1ms IPS ultra-wide monitor with 99% DCI-P3 color accuracy and 90W USB-C hub connectivity.'
+      },
+      {
+        id: 'prod-004',
+        title: 'ErgoGlide Wireless Precision Mouse',
+        category: 'Accessories',
+        price: 109.50,
+        rating: 4.7,
+        image: 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=600&q=80',
+        description: 'Ergonomic contours, hyper-fast electromagnetic wheel, and multi-device Bluetooth sync.'
+      },
+      {
+        id: 'prod-005',
+        title: 'Vocalis XLR Condenser Microphone',
+        category: 'Audio',
+        price: 159.00,
+        rating: 4.6,
+        image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=600&q=80',
+        description: 'Broadcast-quality studio cardioid mic with built-in DSP limiter and vibration isolation shock mount.'
+      },
+      {
+        id: 'prod-006',
+        title: 'Merino Wool Desk Mat',
+        category: 'Accessories',
+        price: 49.00,
+        rating: 4.8,
+        image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80',
+        description: 'Premium organic felt desk pad with non-slip base and stitched anti-fray edges.'
+      }
+    ];
+
+    let cartState = [];
+    let mockOrders = [
+      {
+        orderId: 'ORD-882104',
+        date: '2026-10-01',
+        email: 'caleb@example.com',
+        total: 199.99,
+        status: 'Delivered',
+        items: [{ title: 'Nexus Pro Mechanical Keyboard', quantity: 1, price: 199.99 }]
+      }
+    ];
+    let selectedCategory = 'all';
+    let authUser = null;
+
+    // --- On Initialization ---
+    window.onload = function() {
+      // Load cart state from localStorage
+      const savedCart = localStorage.getItem('techverse_cart');
+      if (savedCart) {
+        try { cartState = JSON.parse(savedCart); } catch(e) { cartState = []; }
+      }
+      renderAuthBar();
+      filterProducts();
+      updateCartDisplay();
+      renderOrdersHistory();
+    };
+
+    // --- Theme Switcher ---
+    function toggleTheme() {
+      const html = document.documentElement;
+      const icon = document.getElementById('theme-toggle-icon');
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        icon.classList.replace('fa-sun', 'fa-moon');
+      } else {
+        html.classList.add('dark');
+        icon.classList.replace('fa-moon', 'fa-sun');
+      }
+    }
+
+    // --- Main Tab Navigation ---
+    function switchMainTab(tabId) {
+      ['store', 'checkout', 'orders', 'hub'].forEach(id => {
+        const view = document.getElementById(`view-${id}`);
+        if (view) view.classList.add('hidden');
+      });
+
+      const activeView = document.getElementById(`view-${tabId}`);
+      if (activeView) activeView.classList.remove('hidden');
+
+      // Update Nav buttons styling
+      const storeBtn = document.getElementById('nav-btn-store');
+      const ordersBtn = document.getElementById('nav-btn-orders');
+      const hubBtn = document.getElementById('nav-btn-hub');
+
+      [storeBtn, ordersBtn, hubBtn].forEach(b => {
+        if(b) b.className = "px-4 py-2 text-xs font-bold rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 flex items-center gap-2";
+      });
+
+      if (tabId === 'store' && storeBtn) {
+        storeBtn.className = "px-4 py-2 text-xs font-bold rounded-xl transition-all text-sky-600 dark:text-sky-400 bg-white dark:bg-slate-800 shadow-sm flex items-center gap-2";
+      } else if (tabId === 'orders' && ordersBtn) {
+        ordersBtn.className = "px-4 py-2 text-xs font-bold rounded-xl transition-all text-sky-600 dark:text-sky-400 bg-white dark:bg-slate-800 shadow-sm flex items-center gap-2";
+      } else if (tabId === 'hub' && hubBtn) {
+        hubBtn.className = "px-4 py-2 text-xs font-bold rounded-xl transition-all text-sky-600 dark:text-sky-400 bg-white dark:bg-slate-800 shadow-sm flex items-center gap-2";
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // --- Google OAuth Simulated State ---
+    function renderAuthBar() {
+      const container = document.getElementById('user-auth-widget');
+      if (authUser) {
+        container.innerHTML = `
+          <div class="flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 p-1.5 pr-3 rounded-full border border-slate-200 dark:border-slate-700">
+            <img src="${authUser.avatar}" class="w-6 h-6 rounded-full object-cover">
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-200 hidden sm:inline">${authUser.name}</span>
+            <button onclick="signOutAuth()" class="text-slate-400 hover:text-red-500 text-xs ml-1"><i class="fa-solid fa-right-from-bracket"></i></button>
+          </div>
+        `;
+      } else {
+        container.innerHTML = `
+          <button onclick="signInWithGoogle()" class="flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition shadow-sm">
+            <i class="fa-brands fa-google text-red-500"></i>
+            <span class="hidden sm:inline">Google Login</span>
+          </button>
+        `;
+      }
+    }
+
+    function signInWithGoogle() {
+      authUser = {
+        name: 'Caleb Dev',
+        email: 'caleb@example.com',
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'
+      };
+      renderAuthBar();
+      triggerToast("Signed in via Google OAuth 2.0");
+    }
+
+    function signOutAuth() {
+      authUser = null;
+      renderAuthBar();
+      triggerToast("Signed out successfully");
+    }
+
+    // --- Product Catalog Rendering & Filtering ---
+    function setCategoryFilter(cat) {
+      selectedCategory = cat;
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        btn.className = "cat-pill px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition";
+      });
+      const activeBtn = document.getElementById(`cat-btn-${cat}`);
+      if (activeBtn) {
+        activeBtn.className = "cat-pill px-3.5 py-1.5 text-xs font-bold rounded-xl bg-sky-600 text-white shadow-sm transition";
+      }
+      filterProducts();
+    }
+
+    function filterProducts() {
+      const grid = document.getElementById('catalog-grid');
+      const search = document.getElementById('search-bar').value.toLowerCase();
+      const sort = document.getElementById('sort-dropdown').value;
+
+      let filtered = MOCK_PRODUCTS.filter(p => {
+        const matchesCat = selectedCategory === 'all' || p.category === selectedCategory;
+        const matchesSearch = p.title.toLowerCase().includes(search) || p.description.toLowerCase().includes(search);
+        return matchesCat && matchesSearch;
+      });
+
+      if (sort === 'price-low') filtered.sort((a,b) => a.price - b.price);
+      else if (sort === 'price-high') filtered.sort((a,b) => b.price - a.price);
+      else if (sort === 'rating') filtered.sort((a,b) => b.rating - a.rating);
+
+      grid.innerHTML = filtered.map(p => `
+        <div class="bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl transition duration-300 flex flex-col group">
+          <div class="relative h-48 overflow-hidden bg-slate-100 dark:bg-slate-950 cursor-pointer" onclick="openProductModal('${p.id}')">
+            <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 right-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1">
+              <i class="fa-solid fa-star text-amber-400"></i> ${p.rating}
+            </span>
+          </div>
+          <div class="p-4 flex flex-col flex-grow space-y-2">
+            <span class="text-[10px] font-extrabold uppercase tracking-wider text-sky-500">${p.category}</span>
+            <h3 class="font-bold text-sm text-slate-900 dark:text-white line-clamp-1 cursor-pointer hover:text-sky-500" onclick="openProductModal('${p.id}')">${p.title}</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 flex-grow">${p.description}</p>
+            <div class="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800">
+              <span class="text-base font-extrabold text-slate-900 dark:text-white">$${p.price.toFixed(2)}</span>
+              <button onclick="addToCart('${p.id}')" class="px-3 py-1.5 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl transition shadow-md shadow-sky-600/20 flex items-center gap-1">
+                <i class="fa-solid fa-cart-plus"></i> Add
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- Product Modal ---
+    function openProductModal(id) {
+      const p = MOCK_PRODUCTS.find(item => item.id === id);
+      if (!p) return;
+
+      const body = document.getElementById('product-modal-body');
+      body.innerHTML = `
+        <div class="rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-950 h-56 sm:h-auto">
+          <img src="${p.image}" class="w-full h-full object-cover">
+        </div>
+        <div class="flex flex-col justify-between space-y-3">
+          <div>
+            <span class="text-[10px] font-extrabold uppercase text-sky-500">${p.category}</span>
+            <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mt-1">${p.title}</h3>
+            <div class="flex items-center space-x-2 mt-1.5 text-xs text-amber-400 font-bold">
+              <i class="fa-solid fa-star"></i> <span>${p.rating} Rating</span>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 mt-3 leading-relaxed">${p.description}</p>
+          </div>
+          <div class="pt-2">
+            <div class="text-xl font-extrabold text-slate-900 dark:text-white mb-3">$${p.price.toFixed(2)}</div>
+            <button onclick="addToCart('${p.id}'); closeProductModal();" class="w-full py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl transition shadow-lg shadow-sky-600/20">
+              Add to Shopping Cart
+            </button>
+          </div>
+        </div>
+      `;
+      document.getElementById('product-modal').classList.remove('hidden');
+    }
+
+    function closeProductModal() {
+      document.getElementById('product-modal').classList.add('hidden');
+    }
+
+    // --- Shopping Cart Engine ---
+    function toggleCartDrawer() {
+      document.getElementById('cart-drawer-container').classList.toggle('translate-x-full');
+    }
+
+    function addToCart(id) {
+      const p = MOCK_PRODUCTS.find(item => item.id === id);
+      if (!p) return;
+
+      const existing = cartState.find(item => item.id === id);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cartState.push({ ...p, quantity: 1 });
+      }
+
+      saveCartState();
+      updateCartDisplay();
+      triggerToast(`Added ${p.title} to cart`);
+    }
+
+    function adjustCartQty(id, delta) {
+      const item = cartState.find(i => i.id === id);
+      if (!item) return;
+
+      item.quantity += delta;
+      if (item.quantity <= 0) {
+        cartState = cartState.filter(i => i.id !== id);
+      }
+      saveCartState();
+      updateCartDisplay();
+    }
+
+    function saveCartState() {
+      localStorage.setItem('techverse_cart', JSON.stringify(cartState));
+    }
+
+    function updateCartDisplay() {
+      const container = document.getElementById('cart-drawer-items');
+      const badge = document.getElementById('cart-counter-badge');
+      const totalCount = cartState.reduce((sum, item) => sum + item.quantity, 0);
+
+      if (totalCount > 0) {
+        badge.innerText = totalCount;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+
+      if (cartState.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-slate-400 space-y-2">
+            <i class="fa-solid fa-basket-shopping text-3xl"></i>
+            <p class="text-xs font-bold">Your cart is currently empty.</p>
+          </div>
+        `;
+      } else {
+        container.innerHTML = cartState.map(item => `
+          <div class="flex items-center justify-between p-2.5 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800">
+            <div class="flex items-center space-x-2.5">
+              <img src="${item.image}" class="w-10 h-10 object-cover rounded-lg">
+              <div>
+                <h4 class="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">${item.title}</h4>
+                <span class="text-xs font-bold text-sky-500">$${(item.price * item.quantity).toFixed(2)}</span>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2 bg-white dark:bg-slate-900 rounded-lg p-1 border border-slate-200 dark:border-slate-800">
+              <button onclick="adjustCartQty('${item.id}', -1)" class="w-4 h-4 text-xs font-bold text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center justify-center">-</button>
+              <span class="text-xs font-extrabold w-4 text-center">${item.quantity}</span>
+              <button onclick="adjustCartQty('${item.id}', 1)" class="w-4 h-4 text-xs font-bold text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center justify-center">+</button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      const subtotal = cartState.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      document.getElementById('cart-drawer-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+    }
+
+    // --- Checkout System ---
+    function proceedToCheckoutFlow() {
+      if (cartState.length === 0) {
+        triggerToast("Please add items to your cart first!");
+        return;
+      }
+      toggleCartDrawer();
+      renderCheckoutSummary();
+      gotoStep(1);
+      switchMainTab('checkout');
+    }
+
+    function gotoStep(step) {
+      [1, 2, 3].forEach(s => {
+        document.getElementById(`checkout-step-${s}`).classList.add('hidden');
+        document.getElementById(`checkout-step-indicator-${s}`).className = "flex items-center space-x-2 text-slate-400 font-bold text-xs";
+      });
+
+      document.getElementById(`checkout-step-${step}`).classList.remove('hidden');
+      document.getElementById(`checkout-step-indicator-${step}`).className = "flex items-center space-x-2 text-sky-600 dark:text-sky-400 font-bold text-xs";
+
+      if (step === 3) {
+        const name = document.getElementById('ship-first-name').value + ' ' + document.getElementById('ship-last-name').value;
+        const street = document.getElementById('ship-street').value;
+        const city = document.getElementById('ship-city-name').value;
+        document.getElementById('checkout-review-address').innerText = `${name}, ${street}, ${city}`;
+      }
+    }
+
+    function renderCheckoutSummary() {
+      const container = document.getElementById('checkout-summary-items');
+      const subtotal = cartState.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const tax = subtotal * 0.085;
+      const total = subtotal + tax;
+
+      container.innerHTML = cartState.map(item => `
+        <div class="flex justify-between text-xs py-1">
+          <span class="text-slate-600 dark:text-slate-300 font-medium">${item.title} (x${item.quantity})</span>
+          <span class="font-bold text-slate-900 dark:text-white">$${(item.price * item.quantity).toFixed(2)}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('checkout-summary-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+      document.getElementById('checkout-summary-tax').innerText = `$${tax.toFixed(2)}`;
+      document.getElementById('checkout-summary-total').innerText = `$${total.toFixed(2)}`;
+    }
+
+    function executeOrderSubmission() {
+      const btn = document.getElementById('place-order-submit-btn');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Triggering Supabase & Mailgun API...`;
+
+      setTimeout(() => {
+        const orderId = 'ORD-' + Math.floor(100000 + Math.random() * 900000);
+        const email = document.getElementById('ship-email-addr').value;
+        const subtotal = cartState.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const total = subtotal * 1.085;
+
+        const newOrder = {
+          orderId: orderId,
+          date: new Date().toISOString().split('T')[0],
+          email: email,
+          total: total,
+          status: 'Processing',
+          items: [...cartState]
+        };
+
+        mockOrders.unshift(newOrder);
+        renderOrdersHistory();
+
+        // Reset Cart
+        cartState = [];
+        saveCartState();
+        updateCartDisplay();
+
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-lock"></i> Authorize & Submit Order`;
+
+        triggerToast("Order processed! Confirmation email sent via Mailgun.");
+        switchMainTab('orders');
+      }, 1500);
+    }
+
+    // --- Order History Rendering ---
+    function renderOrdersHistory() {
+      const container = document.getElementById('orders-history-list');
+      if (mockOrders.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-400">No orders found.</p>`;
+        return;
+      }
+
+      container.innerHTML = mockOrders.map(order => `
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3 text-xs">
+            <div>
+              <span class="font-extrabold text-slate-900 dark:text-white text-sm">${order.orderId}</span>
+              <span class="text-slate-400 block">${order.date} • Sent to ${order.email}</span>
+            </div>
+            <span class="px-3 py-1 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+              <i class="fa-solid fa-circle-check mr-1"></i> ${order.status}
+            </span>
+          </div>
+
+          <div class="space-y-2">
+            ${order.items.map(i => `
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-600 dark:text-slate-300 font-medium">${i.title} (x${i.quantity})</span>
+                <span class="font-bold text-slate-900 dark:text-white">$${(i.price * i.quantity).toFixed(2)}</span>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="border-t border-slate-100 dark:border-slate-800 pt-3 flex justify-between items-center text-xs">
+            <span class="font-bold text-slate-500">Total Paid (Supabase Synced)</span>
+            <span class="text-base font-extrabold text-sky-600 dark:text-sky-400">$${order.total.toFixed(2)}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- Integration Hub Navigation ---
+    function switchHubSection(section) {
+      ['sql', 'mailgun', 'oauth'].forEach(s => {
+        document.getElementById(`hub-sec-${s}`).classList.add('hidden');
+        document.getElementById(`hub-tab-btn-${s}`).className = "hub-tab-btn py-3 px-4 font-bold text-xs sm:text-sm text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 flex items-center gap-2 whitespace-nowrap";
+      });
+
+      document.getElementById(`hub-sec-${section}`).classList.remove('hidden');
+      document.getElementById(`hub-tab-btn-${section}`).className = "hub-tab-btn py-3 px-4 font-bold text-xs sm:text-sm border-b-2 border-sky-500 text-sky-600 dark:text-sky-400 flex items-center gap-2 whitespace-nowrap";
+    }
+
+    // --- Toast & Utility Helpers ---
+    function triggerToast(message) {
+      const toast = document.getElementById('toast-notification');
+      document.getElementById('toast-msg').innerText = message;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3000);
+    }
+
+    function copyToClipboard(elementId) {
+      const text = document.getElementById(elementId).innerText;
+      const el = document.createElement('textarea');
+      el.value = text;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      triggerToast("Code snippet copied to clipboard!");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>TechVerse Gear - Modern Hardware & Developer Setup Hub</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- TechVerse Gear Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  >
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"Fira Code"', 'monospace']
+          },
+          colors: {
+            tech: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              500: '#0284c7',
+              600: '#0284c7',
+              700: '#0369a1',
+              900: '#0c4a6e',
+              accent: '#6366f1'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom Styles -->
+  <style>
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.05);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.4);
+      border-radius: 4px;
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+      background: rgba(51, 65, 85, 0.6);
+    }
+
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .dark .glass-effect {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+
+<body
+  class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-full flex flex-col font-sans transition-colors duration-200 selection:bg-sky-500 selection:text-white"
+>
+
+  <!-- ========================================================= -->
+  <!-- HEADER -->
+  <!-- ========================================================= -->
+
+  <header
+    class="sticky top-0 z-40 glass-effect border-b border-slate-200/80 dark:border-slate-800/80 transition-colors"
+  >
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="flex items-center justify-between h-16">
+
+        <!-- Logo -->
+        <div
+          class="flex items-center space-x-3 cursor-pointer"
+          onclick="switchMainTab('store')"
+        >
+          <div
+            class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 via-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-sky-500/25"
+          >
+            <i class="fa-solid fa-microchip text-xl"></i>
+          </div>
+
+          <div>
+            <span
+              class="text-xl font-extrabold bg-gradient-to-r from-sky-600 via-indigo-600 to-purple-600 dark:from-sky-400 dark:via-indigo-400 dark:to-purple-400 bg-clip-text text-transparent tracking-tight"
+            >
+              TECHVERSE
+            </span>
+
+            <span
+              class="text-[10px] block text-slate-500 dark:text-slate-400 font-bold tracking-widest uppercase -mt-1"
+            >
+              Gear & Cloud Ops
+            </span>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav
+          class="hidden md:flex items-center space-x-1 bg-slate-200/60 dark:bg-slate-900/80 p-1.5 rounded-2xl border border-slate-300/50 dark:border-slate-800"
+        >
+
+          <button
+            id="nav-btn-store"
+            onclick="switchMainTab('store')"
+            class="px-4 py-2 text-xs font-bold rounded-xl transition-all text-sky-600 dark:text-sky-400 bg-white dark:bg-slate-800 shadow-sm flex items-center gap-2"
+          >
+            <i class="fa-solid fa-store"></i>
+            Storefront
+          </button>
+
+          <button
+            id="nav-btn-orders"
+            onclick="switchMainTab('orders')"
+            class="px-4 py-2 text-xs font-bold rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 flex items-center gap-2"
+          >
+            <i class="fa-solid fa-receipt"></i>
+            Orders & Tracking
+          </button>
+
+          <button
+            id="nav-btn-hub"
+            onclick="switchMainTab('hub')"
+            class="px-4 py-2 text-xs font-bold rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 flex items-center gap-2"
+          >
+            <i class="fa-solid fa-server"></i>
+            Backend Hub
+          </button>
+
+        </nav>
+
+        <!-- Header Controls -->
+        <div class="flex items-center space-x-3">
+
+          <!-- Theme Toggle -->
+          <button
+            onclick="toggleTheme()"
+            class="p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition"
+            title="Toggle Theme"
+          >
+            <i
+              id="theme-toggle-icon"
+              class="fa-solid fa-moon text-base"
+            ></i>
+          </button>
+
+          <!-- Cart -->
+          <button
+            onclick="toggleCartDrawer()"
+            class="relative p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+            title="Shopping Cart"
+          >
+            <i class="fa-solid fa-bag-shopping text-lg"></i>
+
+            <span
+              id="cart-counter-badge"
+              class="hidden absolute -top-1 -right-1 bg-sky-500 text-white text-[10px] font-extrabold rounded-full w-5 h-5 flex items-center justify-center animate-bounce"
+            >
+              0
+            </span>
+          </button>
+
+          <!-- Auth -->
+          <div id="user-auth-widget">
+            <!-- Populated by JavaScript -->
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- ========================================================= -->
+  <!-- MOBILE NAVIGATION -->
+  <!-- ========================================================= -->
+
+  <div
+    class="md:hidden bg-slate-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 py-2.5 flex justify-around"
+  >
+
+    <button
+      onclick="switchMainTab('store')"
+      class="text-xs font-bold text-sky-600 dark:text-sky-400 flex items-center gap-1.5"
+    >
+      <i class="fa-solid fa-store"></i>
+      Shop
+    </button>
+
+    <button
+      onclick="switchMainTab('orders')"
+      class="text-xs font-bold text-slate-600 dark:text-slate-400 flex items-center gap-1.5"
+    >
+      <i class="fa-solid fa-receipt"></i>
+      Orders
+    </button>
+
+    <button
+      onclick="switchMainTab('hub')"
+      class="text-xs font-bold text-slate-600 dark:text-slate-400 flex items-center gap-1.5"
+    >
+      <i class="fa-solid fa-server"></i>
+      Cloud Hub
+    </button>
+
+  </div>
+
+
+  <!-- ========================================================= -->
+  <!-- MAIN CONTENT -->
+  <!-- ========================================================= -->
+
+  <main
+    class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8"
+  >
+
+    <!-- ======================================================= -->
+    <!-- STOREFRONT -->
+    <!-- ======================================================= -->
+
+    <section id="view-store" class="space-y-8">
+
+      <!-- Hero -->
+      <div
+        class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-8 sm:p-12 shadow-2xl border border-slate-800"
+      >
+
+        <div class="relative z-10 max-w-2xl space-y-4">
+
+          <span
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/20 text-sky-400 text-xs font-mono font-bold tracking-wide border border-sky-500/30"
+          >
+            <i class="fa-solid fa-sparkles"></i>
+            High-Performance Hardware
+          </span>
+
+          <h1
+            class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight"
+          >
+            Next-Gen Developer Gear & Workstation Components.
+          </h1>
+
+          <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+            Curated mechanical keyboards, ultra-wide color-calibrated
+            monitors, studio mics, and ergonomic gear built for modern
+            engineers.
+          </p>
+
+        </div>
+
+        <div
+          class="absolute -right-20 -bottom-20 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"
+        ></div>
+
+      </div>
+
+
+      <!-- Search & Filters -->
+      <div
+        class="flex flex-col md:flex-row gap-4 items-center justify-between bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm"
+      >
+
+        <!-- Search -->
+        <div class="relative w-full md:w-80">
+
+          <i
+            class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"
+          ></i>
+
+          <input
+            type="text"
+            id="search-bar"
+            oninput="filterProducts()"
+            placeholder="Search hardware, audio, gear..."
+            class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm"
+          >
+
+        </div>
+
+
+        <!-- Filters -->
+        <div
+          class="flex flex-wrap items-center gap-3 w-full md:w-auto justify-between md:justify-end"
+        >
+
+          <!-- Categories -->
+          <div
+            class="flex items-center space-x-1.5 overflow-x-auto pb-1 md:pb-0"
+          >
+
+            <button
+              onclick="setCategoryFilter('all')"
+              id="cat-btn-all"
+              class="cat-pill px-3.5 py-1.5 text-xs font-bold rounded-xl bg-sky-600 text-white shadow-sm transition"
+            >
+              All
+            </button>
+
+            <button
+              onclick="setCategoryFilter('Keyboards')"
+              id="cat-btn-Keyboards"
+              class="cat-pill px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+            >
+              Keyboards
+            </button>
+
+            <button
+              onclick="setCategoryFilter('Audio')"
+              id="cat-btn-Audio"
+              class="cat-pill px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+            >
+              Audio
+            </button>
+
+            <button
+              onclick="setCategoryFilter('Displays')"
+              id="cat-btn-Displays"
+              class="cat-pill px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+            >
+              Displays
+            </button>
+
+            <button
+              onclick="setCategoryFilter('Accessories')"
+              id="cat-btn-Accessories"
+              class="cat-pill px-3.5 py-1.5 text-xs font-bold rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+            >
+              Accessories
+            </button>
+
+          </div>
+
+
+          <!-- Sort -->
+          <select
+            id="sort-dropdown"
+            onchange="filterProducts()"
+            class="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-sky-500"
+          >
+            <option value="featured">Featured Order</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="rating">Top Rated</option>
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <!-- Product Grid -->
+      <div
+        id="catalog-grid"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+      >
+        <!-- Products populated dynamically -->
+      </div>
+
+    </section>
+
+
+    <!-- ======================================================= -->
+    <!-- CHECKOUT -->
+    <!-- ======================================================= -->
+
+    <section id="view-checkout" class="hidden space-y-6">
+
+      <!-- Checkout Header -->
+      <div
+        class="flex items-center space-x-3 pb-4 border-b border-slate-200 dark:border-slate-800"
+      >
+
+        <button
+          onclick="switchMainTab('store')"
+          class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition"
+        >
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+
+        <h2 class="text-2xl font-extrabold tracking-tight">
+          Checkout Process
+        </h2>
+
+      </div>
+
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- Checkout Steps -->
+        <div class="lg:col-span-7 space-y-6">
+
+          <!-- Step Indicator -->
+          <div
+            class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4"
+          >
+
+            <div
+              id="checkout-step-indicator-1"
+              class="flex items-center space-x-2 text-sky-600 dark:text-sky-400 font-bold text-xs"
+            >
+              <span
+                class="w-6 h-6 rounded-full bg-sky-600 text-white flex items-center justify-center text-[10px]"
+              >
+                1
+              </span>
+
+              <span>1. Shipping</span>
+            </div>
+
+
+            <div
+              class="h-0.5 flex-grow bg-slate-200 dark:bg-slate-800 mx-3"
+            ></div>
+
+
+            <div
+              id="checkout-step-indicator-2"
+              class="flex items-center space-x-2 text-slate-400 font-bold text-xs"
+            >
+              <span
+                class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 flex items-center justify-center text-[10px]"
+              >
+                2
+              </span>
+
+              <span>2. Review</span>
+            </div>
+
+
+            <div
+              class="h-0.5 flex-grow bg-slate-200 dark:bg-slate-800 mx-3"
+            ></div>
+
+
+            <div
+              id="checkout-step-indicator-3"
+              class="flex items-center space-x-2 text-slate-400 font-bold text-xs"
+            >
+              <span
+                class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 flex items-center justify-center text-[10px]"
+              >
+                3
+              </span>
+
+              <span>3. Payment</span>
+            </div>
+
+          </div>
+
+
+          <!-- =============================================== -->
+          <!-- CHECKOUT STEP 1 -->
+          <!-- =============================================== -->
+
+          <div
+            id="checkout-step-1"
+            class="space-y-4 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm"
+          >
+
+            <h3
+              class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2"
+            >
+              <i class="fa-solid fa-truck-fast text-sky-500"></i>
+              Shipping Address
+            </h3>
+
+
+            <div class="grid grid-cols-2 gap-4">
+
+              <div>
+
+                <label
+                  class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1"
+                >
+                  First Name
+                </label>
+
+                <input
+                  type="text"
+                  id="ship-first-name"
+                  value="Caleb"
+                  class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-sky-500 outline-none"
+                >
+
+              </div>
+
+
+              <div>
+
+                <label
+                  class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1"
+                >
+                  Last Name
+                </label>
+
+                <input
+                  type="text"
+                  id="ship-last-name"
+                  value="Developer"
+                  class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-sky-500 outline-none"
+                >
+
+              </div>
+
+            </div>
+
+
+            <div>
+
+              <label
+                class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1"
+              >
+                Email Address
+              </label>
+
+              <input
+                type="email"
+                id="ship-email-addr"
+                value="caleb@example.com"
+                class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-sky-500 outline-none"
+              >
+
+            </div>
+
+
+            <div>
+
+              <label
+                class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1"
+              >
+                Delivery Address
+              </label>
+
+              <input
+                type="text"
+                id="ship-street"
+                value="742 Market Street, Suite 500"
+                class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-sky-500 outline-none"
+              >
+
+            </div>
+
+
+            <div class="grid grid-cols-3 gap-4">
+
+              <div>
+
+                <label
+                  class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1"
+                >
+                  City
+                </label>
+
+                <input
+                  type="text"
+                  id="ship-city-name"
+                  value="San Francisco"
+                  class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-sky-500 outline-none"
+                >
+
+              </div>
+
+
+              <div>
+
+                <label
+                  class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1"
+                >
+                  State
+                </label>
+
+                <input
+                  type="text"
+                  id="ship-state-code"
+                  value="CA"
+                  class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-sky-500 outline-none"
+                >
+
+              </div>
+
+
+              <div>
+
+                <label
+                  class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase mb-1"
+                >
+                  ZIP Code
+                </label>
+
+                <input
+                  type="text"
+                  id="ship-zip-code"
+                  value="94103"
+                  class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-sm focus:ring-2 focus:ring-sky-500 outline-none"
+                >
+
+              </div>
+
+            </div>
+
+
+            <button
+              onclick="gotoStep(2)"
+              class="w-full py-3 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl transition shadow-lg shadow-sky-600/20 text-sm mt-2"
+            >
+              Review Order
+              <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+
+          </div>
+
+
+          <!-- =============================================== -->
+          <!-- CHECKOUT STEP 2 -->
+          <!-- =============================================== -->
+
+          <div
+            id="checkout-step-2"
+            class="hidden space-y-4 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm"
+          >
+
+            <h3
+              class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2"
+            >
+              <i class="fa-solid fa-clipboard-check text-sky-500"></i>
+              Review Your Order
+            </h3>
+
+
+            <!-- Shipping Review -->
+            <div
+              class="p-4 bg-slate-50 dark:bg-slate-950 rounded-xl space-y-2 text-xs border border-slate-200 dark:border-slate-800"
+            >
+
+              <div class="flex justify-between items-center">
+
+                <span
+                  class="font-bold text-slate-500 dark:text-slate-400"
+                >
+                  Shipping Destination
+                </span>
+
+                <button
+                  onclick="gotoStep(1)"
+                  class="text-sky-500 hover:underline font-bold"
+                >
+                  Edit
+                </button>
+
+              </div>
+
+              <p
+                id="checkout-review-address"
+                class="font-bold text-slate-800 dark:text-slate-200 leading-relaxed"
+              ></p>
+
+            </div>
+
+
+            <!-- Items Review -->
+            <div
+              class="p-4 bg-slate-50 dark:bg-slate-950 rounded-xl space-y-3 text-xs border border-slate-200 dark:border-slate-800"
+            >
+
+              <div class="flex items-center justify-between">
+
+                <span
+                  class="font-bold text-slate-900 dark:text-white"
+                >
+                  Items
+                </span>
+
+                <span class="text-slate-400">
+                  Review the order summary
+                </span>
+
+              </div>
+
+              <div
+                id="checkout-review-items"
+                class="space-y-2"
+              >
+                <!-- Dynamically populated -->
+              </div>
+
+            </div>
+
+
+            <!-- Secure Payment Notice -->
+            <div
+              class="p-4 rounded-xl border border-sky-200 dark:border-sky-900 bg-sky-50 dark:bg-sky-950/30"
+            >
+
+              <div class="flex items-start gap-3">
+
+                <div
+                  class="w-9 h-9 rounded-lg bg-sky-100 dark:bg-sky-900/50 flex items-center justify-center shrink-0"
+                >
+                  <i
+                    class="fa-solid fa-shield-halved text-sky-600 dark:text-sky-400"
+                  ></i>
+                </div>
+
+                <div>
+
+                  <p
+                    class="text-xs font-bold text-slate-900 dark:text-white"
+                  >
+                    Secure Payment
+                  </p>
+
+                  <p
+                    class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed"
+                  >
+                    Your payment will be processed securely through Paystack.
+                    TechVerse Gear does not store your card details.
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- Step Buttons -->
+            <div class="flex space-x-3 mt-4">
+
+              <button
+                onclick="gotoStep(1)"
+                class="w-1/3 py-3 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-xl hover:bg-slate-200 transition"
+              >
+                Back
+              </button>
+
+              <button
+                onclick="gotoStep(3)"
+                class="w-2/3 py-3 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl transition shadow-lg shadow-sky-600/20"
+              >
+                Choose Payment Method
+                <i class="fa-solid fa-arrow-right ml-1"></i>
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <!-- =============================================== -->
+          <!-- CHECKOUT STEP 3 -->
+          <!-- =============================================== -->
+
+          <div
+            id="checkout-step-3"
+            class="hidden space-y-5 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm"
+          >
+
+            <div>
+
+              <h3
+                class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2"
+              >
+                <i class="fa-solid fa-wallet text-sky-500"></i>
+                Choose Payment Method
+              </h3>
+
+              <p
+                class="text-xs text-slate-500 dark:text-slate-400 mt-1"
+              >
+                Select how you would like to complete your payment.
+              </p>
+
+            </div>
+
+
+            <!-- Paystack -->
+            <button
+              id="paystack-payment-btn"
+              type="button"
+              onclick="executeOrderSubmission()"
+              class="w-full text-left p-4 rounded-2xl border-2 border-sky-500 bg-sky-50/60 dark:bg-sky-950/20 hover:bg-sky-100 dark:hover:bg-sky-950/40 transition group"
+            >
+
+              <div class="flex items-center justify-between gap-4">
+
+                <div class="flex items-center gap-4">
+
+                  <div
+                    class="w-12 h-12 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center shadow-sm"
+                  >
+                    <i
+                      class="fa-solid fa-credit-card text-sky-600 dark:text-sky-400 text-xl"
+                    ></i>
+                  </div>
+
+                  <div>
+
+                    <div class="flex items-center gap-2">
+
+                      <span
+                        class="font-extrabold text-sm text-slate-900 dark:text-white"
+                      >
+                        Pay with Paystack
+                      </span>
+
+                      <span
+                        class="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[9px] font-extrabold uppercase tracking-wide"
+                      >
+                        Available
+                      </span>
+
+                    </div>
+
+                    <p
+                      class="text-[11px] text-slate-500 dark:text-slate-400 mt-1"
+                    >
+                      Continue securely to Paystack checkout.
+                    </p>
+
+                    <div
+                      class="flex items-center gap-2 mt-2 text-[10px] text-slate-400"
+                    >
+
+                      <span class="flex items-center gap-1">
+                        <i class="fa-regular fa-credit-card"></i>
+                        Card
+                      </span>
+
+                      <span>•</span>
+
+                      <span class="flex items-center gap-1">
+                        <i class="fa-solid fa-building-columns"></i>
+                        Bank
+                      </span>
+
+                      <span>•</span>
+
+                      <span>
+                        Other supported methods
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div
+                  class="shrink-0 w-9 h-9 rounded-full bg-sky-600 text-white flex items-center justify-center group-hover:translate-x-1 transition-transform"
+                >
+                  <i class="fa-solid fa-arrow-right text-xs"></i>
+                </div>
+
+              </div>
+
+            </button>
+
+
+            <!-- FairMoney -->
+            <div
+              class="w-full p-4 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 opacity-75"
+            >
+
+              <div class="flex items-center justify-between gap-4">
+
+                <div class="flex items-center gap-4">
+
+                  <div
+                    class="w-12 h-12 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center shadow-sm"
+                  >
+                    <i
+                      class="fa-solid fa-building-columns text-slate-400 text-xl"
+                    ></i>
+                  </div>
+
+                  <div>
+
+                    <div class="flex items-center gap-2">
+
+                      <span
+                        class="font-extrabold text-sm text-slate-700 dark:text-slate-300"
+                      >
+                        Pay with FairMoney
+                      </span>
+
+                      <span
+                        class="px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[9px] font-extrabold uppercase tracking-wide"
+                      >
+                        Coming Soon
+                      </span>
+
+                    </div>
+
+                    <p
+                      class="text-[11px] text-slate-500 dark:text-slate-400 mt-1"
+                    >
+                      FairMoney payment integration will be available in a future release.
+                    </p>
+
+                  </div>
+
+                </div>
+
+                <div
+                  class="shrink-0 w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-400 flex items-center justify-center"
+                >
+                  <i class="fa-solid fa-lock text-xs"></i>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- Back -->
+            <button
+              onclick="gotoStep(2)"
+              class="w-full py-3 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+            >
+              <i class="fa-solid fa-arrow-left mr-1"></i>
+              Back to Review
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- Checkout Summary -->
+        <div class="lg:col-span-5">
+
+          <div
+            class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm sticky top-24 space-y-4"
+          >
+
+            <h3
+              class="font-bold text-sm border-b border-slate-200 dark:border-slate-800 pb-3"
+            >
+              Items in Order
+            </h3>
+
+            <div
+              id="checkout-summary-items"
+              class="space-y-3 max-h-56 overflow-y-auto pr-1"
+            >
+              <!-- Dynamically populated -->
+            </div>
+
+
+            <div
+              class="border-t border-slate-200 dark:border-slate-800 pt-3 space-y-2 text-xs"
+            >
+
+              <div class="flex justify-between text-slate-500">
+
+                <span>Subtotal</span>
+
+                <span
+                  id="checkout-summary-subtotal"
+                  class="font-bold text-slate-800 dark:text-slate-200"
+                >
+                  ₦0.00
+                </span>
+
+              </div>
+
+
+              <div class="flex justify-between text-slate-500">
+
+                <span>Shipping Rate</span>
+
+                <span class="font-bold text-emerald-500">
+                  FREE Express
+                </span>
+
+              </div>
+
+
+              <div class="flex justify-between text-slate-500">
+
+                <span>Tax (8.5%)</span>
+
+                <span
+                  id="checkout-summary-tax"
+                  class="font-bold text-slate-800 dark:text-slate-200"
+                >
+                  ₦0.00
+                </span>
+
+              </div>
+
+
+              <div
+                class="flex justify-between text-sm font-extrabold text-slate-900 dark:text-white border-t border-slate-200 dark:border-slate-800 pt-3"
+              >
+
+                <span>Total Amount</span>
+
+                <span
+                  id="checkout-summary-total"
+                  class="text-sky-600 dark:text-sky-400"
+                >
+                  ₦0.00
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ======================================================= -->
+    <!-- ORDERS -->
+    <!-- ======================================================= -->
+
+    <section id="view-orders" class="hidden space-y-6">
+
+      <div
+        class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800"
+      >
+
+        <h2 class="text-2xl font-extrabold tracking-tight">
+          Order History & Tracking Receipts
+        </h2>
+
+        <span
+          class="hidden sm:inline-flex text-xs bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-3 py-1 rounded-full font-mono font-bold"
+        >
+          Supabase Synced
+        </span>
+
+      </div>
+
+
+      <div
+        id="orders-history-list"
+        class="space-y-4"
+      >
+        <!-- Orders rendered dynamically -->
+      </div>
+
+    </section>
+
+
+    <!-- ======================================================= -->
+    <!-- BACKEND HUB -->
+    <!-- ======================================================= -->
+
+    <section id="view-hub" class="hidden space-y-8">
+
+      <!-- Hub Header -->
+      <div
+        class="bg-gradient-to-br from-slate-900 via-slate-950 to-indigo-950 text-white p-8 rounded-3xl border border-slate-800 shadow-xl relative overflow-hidden"
+      >
+
+        <div class="relative z-10 max-w-3xl space-y-3">
+
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/20 text-sky-400 text-xs font-mono font-bold"
+          >
+            <span
+              class="w-2 h-2 rounded-full bg-sky-400 animate-ping"
+            ></span>
+
+            Live Integration Hub
+          </div>
+
+          <h2 class="text-3xl font-extrabold tracking-tight">
+            Backend & Cloud Setup Dashboard
+          </h2>
+
+          <p
+            class="text-slate-400 text-xs sm:text-sm leading-relaxed"
+          >
+            TechVerse Gear backend configuration covering the Supabase
+            database, Paystack payment flow, Mailgun email integration,
+            and Google OAuth.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- Hub Tabs -->
+      <div
+        class="flex border-b border-slate-200 dark:border-slate-800 space-x-2 sm:space-x-4 overflow-x-auto"
+      >
+
+        <button
+          onclick="switchHubSection('sql')"
+          id="hub-tab-btn-sql"
+          class="hub-tab-btn py-3 px-4 font-bold text-xs sm:text-sm border-b-2 border-sky-500 text-sky-600 dark:text-sky-400 flex items-center gap-2 whitespace-nowrap"
+        >
+          <i class="fa-solid fa-database"></i>
+          Supabase
+        </button>
+
+        <button
+          onclick="switchHubSection('payment')"
+          id="hub-tab-btn-payment"
+          class="hub-tab-btn py-3 px-4 font-bold text-xs sm:text-sm text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 flex items-center gap-2 whitespace-nowrap"
+        >
+          <i class="fa-solid fa-credit-card"></i>
+          Paystack
+        </button>
+
+        <button
+          onclick="switchHubSection('mailgun')"
+          id="hub-tab-btn-mailgun"
+          class="hub-tab-btn py-3 px-4 font-bold text-xs sm:text-sm text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 flex items-center gap-2 whitespace-nowrap"
+        >
+          <i class="fa-solid fa-paper-plane"></i>
+          Mailgun
+        </button>
+
+        <button
+          onclick="switchHubSection('oauth')"
+          id="hub-tab-btn-oauth"
+          class="hub-tab-btn py-3 px-4 font-bold text-xs sm:text-sm text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 flex items-center gap-2 whitespace-nowrap"
+        >
+          <i class="fa-brands fa-google"></i>
+          Google OAuth
+        </button>
+
+      </div>
+
+
+      <!-- =================================================== -->
+      <!-- HUB: SUPABASE -->
+      <!-- =================================================== -->
+
+      <div
+        id="hub-sec-sql"
+        class="space-y-4"
+      >
+
+        <div
+          class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-5"
+        >
+
+          <div class="flex items-center justify-between gap-4">
+
+            <h3
+              class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2"
+            >
+              <i class="fa-solid fa-database text-sky-500"></i>
+              TechVerse Gear Supabase Schema
+            </h3>
+
+            <button
+              onclick="copyToClipboard('sql-schema-code')"
+              class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono font-bold rounded-lg border border-slate-700 flex items-center gap-1.5 transition"
+            >
+              <i class="fa-regular fa-copy"></i>
+              Copy SQL
+            </button>
+
+          </div>
+
+
+          <p
+            class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed"
+          >
+            Current database structure used by the TechVerse Gear application.
+          </p>
+
+
+          <!-- Schema Cards -->
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"
+          >
+
+            <div
+              class="p-4 rounded-xl bg-sky-50 dark:bg-sky-950/20 border border-sky-100 dark:border-sky-900"
+            >
+              <div
+                class="text-xs font-bold text-sky-600 dark:text-sky-400"
+              >
+                PRODUCTS
+              </div>
+
+              <div class="text-sm font-extrabold mt-1">
+                Product Catalog
+              </div>
+            </div>
+
+
+            <div
+              class="p-4 rounded-xl bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-100 dark:border-indigo-900"
+            >
+              <div
+                class="text-xs font-bold text-indigo-600 dark:text-indigo-400"
+              >
+                ORDERS
+              </div>
+
+              <div class="text-sm font-extrabold mt-1">
+                Customer Orders
+              </div>
+            </div>
+
+
+            <div
+              class="p-4 rounded-xl bg-purple-50 dark:bg-purple-950/20 border border-purple-100 dark:border-purple-900"
+            >
+              <div
+                class="text-xs font-bold text-purple-600 dark:text-purple-400"
+              >
+                ORDER ITEMS
+              </div>
+
+              <div class="text-sm font-extrabold mt-1">
+                Purchased Products
+              </div>
+            </div>
+
+
+            <div
+              class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900"
+            >
+              <div
+                class="text-xs font-bold text-emerald-600 dark:text-emerald-400"
+              >
+                PAYMENTS
+              </div>
+
+              <div class="text-sm font-extrabold mt-1">
+                Paystack Intents
+              </div>
+            </div>
+
+          </div>
+
+
+          <!-- SQL -->
+          <pre
+            class="bg-slate-950 text-slate-100 p-4 rounded-2xl text-xs font-mono overflow-x-auto leading-relaxed border border-slate-800"
+          ><code id="sql-schema-code">-- =========================================================
+-- TECHVERSE GEAR
+-- CURRENT SUPABASE DATABASE SCHEMA
+-- =========================================================
+
+-- PRODUCTS
+CREATE TABLE IF NOT EXISTS public.products (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  category TEXT NOT NULL,
+  price NUMERIC NOT NULL,
+  image_url TEXT,
+  description TEXT,
+  stock INTEGER NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- ORDERS
+CREATE TABLE IF NOT EXISTS public.orders (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_email TEXT NOT NULL,
+  total_amount NUMERIC NOT NULL,
+  shipping_address JSONB NOT NULL,
+  payment_method TEXT NOT NULL,
+  status TEXT DEFAULT 'Processing',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- ORDER ITEMS
+CREATE TABLE IF NOT EXISTS public.order_items (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  order_id UUID REFERENCES public.orders(id) ON DELETE CASCADE,
+  product_name TEXT NOT NULL,
+  quantity INTEGER NOT NULL,
+  price NUMERIC NOT NULL
+);
+
+-- PAYMENT INTENTS
+CREATE TABLE IF NOT EXISTS public.payment_intents (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  reference TEXT UNIQUE NOT NULL,
+  user_email TEXT NOT NULL,
+  amount NUMERIC NOT NULL,
+  currency TEXT DEFAULT 'NGN',
+  shipping_address JSONB NOT NULL,
+  items JSONB NOT NULL,
+  status TEXT DEFAULT 'pending',
+  order_id UUID REFERENCES public.orders(id),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- INDEXES
+CREATE INDEX IF NOT EXISTS
+  idx_payment_intents_reference
+ON public.payment_intents(reference);
+
+CREATE INDEX IF NOT EXISTS
+  idx_orders_user_email
+ON public.orders(user_email);
+
+CREATE INDEX IF NOT EXISTS
+  idx_order_items_order_id
+ON public.order_items(order_id);
+
+-- RPC FUNCTIONS
+-- create_order_atomic()
+-- finalize_payment_intent()</code></pre>
+
+
+          <!-- Architecture -->
+          <div
+            class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800"
+          >
+
+            <h4 class="text-sm font-bold mb-3">
+              Payment → Order Architecture
+            </h4>
+
+            <div
+              class="flex flex-wrap items-center gap-2 text-[11px] font-mono"
+            >
+
+              <span
+                class="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800"
+              >
+                Checkout
+              </span>
+
+              <i class="fa-solid fa-arrow-right text-sky-500"></i>
+
+              <span
+                class="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800"
+              >
+                Payment Intent
+              </span>
+
+              <i class="fa-solid fa-arrow-right text-sky-500"></i>
+
+              <span
+                class="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800"
+              >
+                Paystack
+              </span>
+
+              <i class="fa-solid fa-arrow-right text-sky-500"></i>
+
+              <span
+                class="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800"
+              >
+                Verify
+              </span>
+
+              <i class="fa-solid fa-arrow-right text-sky-500"></i>
+
+              <span
+                class="px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900 text-emerald-600 dark:text-emerald-400"
+              >
+                Order Created
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================================== -->
+      <!-- HUB: PAYSTACK -->
+      <!-- =================================================== -->
+
+      <div
+        id="hub-sec-payment"
+        class="hidden space-y-4"
+      >
+
+        <div
+          class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-5"
+        >
+
+          <div class="flex items-center justify-between">
+
+            <h3
+              class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2"
+            >
+              <i class="fa-solid fa-credit-card text-sky-500"></i>
+              Paystack Payment Flow
+            </h3>
+
+            <span
+              class="px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-[9px] font-extrabold uppercase"
+            >
+              Active
+            </span>
+
+          </div>
+
+
+          <p
+            class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed"
+          >
+            TechVerse Gear uses Paystack to securely process customer payments.
+            The backend calculates the authoritative order amount, initializes
+            the transaction, and verifies the transaction before creating an
+            order.
+          </p>
+
+
+          <!-- Payment Flow -->
+          <div class="space-y-3">
+
+            <div
+              class="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800"
+            >
+
+              <div
+                class="w-8 h-8 shrink-0 rounded-lg bg-sky-100 dark:bg-sky-900/40 text-sky-600 dark:text-sky-400 flex items-center justify-center font-extrabold text-xs"
+              >
+                1
+              </div>
+
+              <div>
+                <p class="text-xs font-bold">
+                  Initialize Payment
+                </p>
+
+                <p class="text-[11px] text-slate-500 mt-1">
+                  Customer checkout information is sent to the backend.
+                </p>
+              </div>
+
+            </div>
+
+
+            <div
+              class="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800"
+            >
+
+              <div
+                class="w-8 h-8 shrink-0 rounded-lg bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-extrabold text-xs"
+              >
+                2
+              </div>
+
+              <div>
+                <p class="text-xs font-bold">
+                  Server Calculates Total
+                </p>
+
+                <p class="text-[11px] text-slate-500 mt-1">
+                  Product prices and stock are retrieved from Supabase.
+                </p>
+              </div>
+
+            </div>
+
+
+            <div
+              class="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800"
+            >
+
+              <div
+                class="w-8 h-8 shrink-0 rounded-lg bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 flex items-center justify-center font-extrabold text-xs"
+              >
+                3
+              </div>
+
+              <div>
+                <p class="text-xs font-bold">
+                  Paystack Checkout
+                </p>
+
+                <p class="text-[11px] text-slate-500 mt-1">
+                  Customer is redirected to Paystack to complete payment.
+                </p>
+              </div>
+
+            </div>
+
+
+            <div
+              class="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800"
+            >
+
+              <div
+                class="w-8 h-8 shrink-0 rounded-lg bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 flex items-center justify-center font-extrabold text-xs"
+              >
+                4
+              </div>
+
+              <div>
+                <p class="text-xs font-bold">
+                  Server-Side Verification
+                </p>
+
+                <p class="text-[11px] text-slate-500 mt-1">
+                  Paystack confirms the transaction before the backend accepts it.
+                </p>
+              </div>
+
+            </div>
+
+
+            <div
+              class="flex gap-4 p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900"
+            >
+
+              <div
+                class="w-8 h-8 shrink-0 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-extrabold text-xs"
+              >
+                5
+              </div>
+
+              <div>
+
+                <p
+                  class="text-xs font-bold text-emerald-700 dark:text-emerald-400"
+                >
+                  Order Finalized
+                </p>
+
+                <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-1">
+                  The verified payment intent is finalized and the order is created.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Security -->
+          <div
+            class="p-4 rounded-xl bg-sky-50 dark:bg-sky-950/20 border border-sky-200 dark:border-sky-900"
+          >
+
+            <div class="flex items-start gap-3">
+
+              <i
+                class="fa-solid fa-shield-halved text-sky-600 dark:text-sky-400 mt-0.5"
+              ></i>
+
+              <div>
+
+                <p class="text-xs font-bold">
+                  Payment Security
+                </p>
+
+                <p
+                  class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed"
+                >
+                  Paystack secret credentials remain server-side. Product prices,
+                  payment amounts and payment status are validated by the backend.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================================== -->
+      <!-- HUB: MAILGUN -->
+      <!-- =================================================== -->
+
+      <div
+        id="hub-sec-mailgun"
+        class="hidden space-y-4"
+      >
+
+        <div
+          class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-5"
+        >
+
+          <div class="flex items-center justify-between">
+
+            <h3
+              class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2"
+            >
+              <i class="fa-solid fa-paper-plane text-red-500"></i>
+              Mailgun Email Integration
+            </h3>
+
+            <span
+              class="px-2.5 py-1 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[9px] font-extrabold uppercase"
+            >
+              Integration Ready
+            </span>
+
+          </div>
+
+
+          <p class="text-xs text-slate-500 dark:text-slate-400">
+            Mailgun can be used by the backend for order confirmations,
+            payment receipts and other transactional notifications.
+          </p>
+
+
+          <pre
+            class="bg-slate-950 text-slate-100 p-4 rounded-2xl text-xs font-mono overflow-x-auto leading-relaxed border border-slate-800"
+          ><code id="mailgun-code-snippet">const formData = require("form-data");
+const Mailgun = require("mailgun.js");
+
+const mailgun = new Mailgun(formData);
+
+const mg = mailgun.client({
+  username: "api",
+  key: process.env.MAILGUN_API_KEY
+});
+
+async function sendOrderConfirmation({
+  customerEmail,
+  orderId,
+  totalAmount
+}) {
+  return await mg.messages.create(
+    process.env.MAILGUN_DOMAIN,
+    {
+      from: "TechVerse Gear &lt;orders@your-domain.com&gt;",
+      to: [customerEmail],
+      subject: `Order Confirmation #${orderId}`,
+      text: `
+Thank you for your TechVerse Gear order.
+
+Order ID: ${orderId}
+Total Paid: ₦${Number(totalAmount).toLocaleString()}
+
+Your order is being processed.
+      `
+    }
+  );
+}</code></pre>
+
+
+          <button
+            onclick="copyToClipboard('mailgun-code-snippet')"
+            class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono font-bold rounded-lg border border-slate-700 flex items-center gap-1.5 transition"
+          >
+            <i class="fa-regular fa-copy"></i>
+            Copy Node Code
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================================== -->
+      <!-- HUB: GOOGLE OAUTH -->
+      <!-- =================================================== -->
+
+      <div
+        id="hub-sec-oauth"
+        class="hidden space-y-4"
+      >
+
+        <div
+          class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-5"
+        >
+
+          <div class="flex items-center justify-between">
+
+            <h3
+              class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2"
+            >
+              <i class="fa-brands fa-google text-blue-500"></i>
+              Google OAuth Setup
+            </h3>
+
+          </div>
+
+
+          <div class="space-y-3 text-xs text-slate-600 dark:text-slate-300">
+
+            <div
+              class="p-4 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3"
+            >
+
+              <h4 class="font-bold text-slate-900 dark:text-white text-sm">
+                Google Cloud Console Setup
+              </h4>
+
+              <ol
+                class="list-decimal list-inside space-y-2 leading-relaxed"
+              >
+
+                <li>
+                  Open
+                  <a
+                    href="https://console.cloud.google.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-sky-500 underline font-bold"
+                  >
+                    Google Cloud Console
+                  </a>.
+                </li>
+
+                <li>
+                  Create or select the Google Cloud project.
+                </li>
+
+                <li>
+                  Configure the OAuth consent screen.
+                </li>
+
+                <li>
+                  Create an OAuth Client ID and choose
+                  <b>Web Application</b>.
+                </li>
+
+                <li>
+                  Configure the Supabase Auth callback:
+                  <code
+                    class="block mt-1 bg-slate-200 dark:bg-slate-800 px-2 py-1.5 rounded font-mono break-all"
+                  >
+                    https://&lt;your-project-ref&gt;.supabase.co/auth/v1/callback
+                  </code>
+                </li>
+
+              </ol>
+
+            </div>
+
+
+            <div
+              class="p-4 rounded-xl border border-sky-200 dark:border-sky-900 bg-sky-50 dark:bg-sky-950/20"
+            >
+
+              <p class="font-bold text-slate-900 dark:text-white">
+                OAuth Scopes
+              </p>
+
+              <div class="flex flex-wrap gap-2 mt-2">
+
+                <code
+                  class="px-2 py-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-mono"
+                >
+                  openid
+                </code>
+
+                <code
+                  class="px-2 py-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-mono"
+                >
+                  email
+                </code>
+
+                <code
+                  class="px-2 py-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-mono"
+                >
+                  profile
+                </code>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <pre
+            class="bg-slate-950 text-slate-100 p-4 rounded-2xl text-xs font-mono overflow-x-auto leading-relaxed border border-slate-800"
+          ><code id="oauth-frontend-code">const { data, error } =
+  await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: window.location.origin
+    }
+  });
+
+if (error) {
+  console.error(
+    "Google OAuth error:",
+    error.message
+  );
+}</code></pre>
+
+
+          <button
+            onclick="copyToClipboard('oauth-frontend-code')"
+            class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono font-bold rounded-lg border border-slate-700 flex items-center gap-1.5 transition"
+          >
+            <i class="fa-regular fa-copy"></i>
+            Copy Auth Code
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ========================================================= -->
+  <!-- CART DRAWER -->
+  <!-- ========================================================= -->
+
+  <div
+    id="cart-drawer-container"
+    class="fixed inset-y-0 right-0 z-50 w-full sm:w-96 bg-white dark:bg-slate-900 shadow-2xl border-l border-slate-200 dark:border-slate-800 transform translate-x-full transition-transform duration-300 flex flex-col"
+  >
+
+    <!-- Cart Header -->
+    <div
+      class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between"
+    >
+
+      <div class="flex items-center space-x-2">
+
+        <i
+          class="fa-solid fa-bag-shopping text-sky-600 dark:text-sky-400 text-lg"
+        ></i>
+
+        <h3
+          class="font-extrabold text-base text-slate-900 dark:text-white"
+        >
+          Shopping Cart
+        </h3>
+
+      </div>
+
+      <button
+        onclick="toggleCartDrawer()"
+        class="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+      >
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+    </div>
+
+
+    <!-- Cart Items -->
+    <div
+      id="cart-drawer-items"
+      class="flex-grow p-4 overflow-y-auto space-y-3"
+    >
+      <!-- Items dynamically populated -->
+    </div>
+
+
+    <!-- Cart Footer -->
+    <div
+      class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 space-y-3"
+    >
+
+      <div
+        class="flex justify-between text-xs text-slate-500 dark:text-slate-400"
+      >
+
+        <span>Cart Subtotal</span>
+
+        <span
+          id="cart-drawer-subtotal"
+          class="font-extrabold text-slate-900 dark:text-white"
+        >
+          ₦0.00
+        </span>
+
+      </div>
+
+
+      <button
+        onclick="proceedToCheckoutFlow()"
+        class="w-full py-3 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl transition shadow-lg shadow-sky-600/20 flex items-center justify-center gap-2"
+      >
+        Proceed to Checkout
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================================================= -->
+  <!-- PRODUCT MODAL -->
+  <!-- ========================================================= -->
+
+  <div
+    id="product-modal"
+    class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm"
+  >
+
+    <div
+      class="bg-white dark:bg-slate-900 rounded-3xl max-w-xl w-full p-6 relative shadow-2xl border border-slate-200 dark:border-slate-800"
+    >
+
+      <button
+        onclick="closeProductModal()"
+        class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center justify-center"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div
+        id="product-modal-body"
+        class="grid grid-cols-1 sm:grid-cols-2 gap-6"
+      >
+        <!-- Product details dynamically rendered -->
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================================================= -->
+  <!-- TOAST -->
+  <!-- ========================================================= -->
+
+  <div
+    id="toast-notification"
+    class="fixed bottom-6 right-6 z-50 hidden bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 px-4 py-3 rounded-2xl shadow-2xl border border-slate-700 dark:border-slate-300 flex items-center space-x-3 transition-all duration-300 text-xs font-bold"
+  >
+
+    <i
+      id="toast-icon"
+      class="fa-solid fa-circle-check text-emerald-400 dark:text-emerald-600 text-sm"
+    ></i>
+
+    <span id="toast-msg">
+      Toast message
+    </span>
+
+  </div>
+
+
+  <!-- ========================================================= -->
+  <!-- APPLICATION JAVASCRIPT -->
+  <!-- ========================================================= -->
+
+  <script src="/js/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+  const SUPABASE_URL = 'https://herrobxzaopdleemtotq.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_3Qut1W4OhxR7z7ypm8tVqg_fvlOB-o9';
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+</script>
+
+</body>
+</html>
