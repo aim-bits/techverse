@@ -835,8 +835,12 @@ app.use(
 // Start Server
 // ========================================
 
-app.listen(PORT, () => {
-  console.log(
-    `TechVerse Gear server running on http://localhost:${PORT}`
-  );
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(
+      `TechVerse Gear server running on http://localhost:${PORT}`
+    );
+  });
+}
+
+module.exports = app;
