@@ -11,6 +11,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/cli": "^7.6.9",
+    "@capacitor/core": "^8.5.2",
     "@supabase/supabase-js": "^2.109.0",
     "cors": "^2.8.6",
     "dotenv": "^18.0.5",

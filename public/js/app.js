@@ -1,3 +1,5 @@
+
+const API_BASE_URL = "https://techverse-theta.vercel.app";
 // ============================================================
 // TECHVERSE GEAR - FRONTEND APPLICATION
 // ============================================================
@@ -30,7 +32,7 @@ function formatNGN(amount) {
 
 async function loadProducts() {
   try {
-    const response = await fetch('/api/products');
+    const response = await fetch(`${API_BASE_URL}/api/products`);
 
     if (!response.ok) {
       throw new Error('Failed to fetch products');
@@ -1621,7 +1623,7 @@ async function executeOrderSubmission() {
 
     const response =
       await fetch(
-        '/api/payments/initialize',
+        `${API_BASE_URL}/api/payments/initialize`,
         {
           method: 'POST',
 
@@ -1827,7 +1829,7 @@ async function handlePaystackReturn(
 
     const response =
       await fetch(
-        `/api/payments/verify?reference=${encodeURIComponent(reference)}`
+        `${API_BASE_URL}/api/payments/verify?reference=${encodeURIComponent(reference)}`
       );
 
 
@@ -2065,7 +2067,7 @@ async function loadOrders() {
 
     const response =
       await fetch(
-        `/api/orders?email=${encodeURIComponent(email)}`
+        `${API_BASE_URL}/api/orders?email=${encodeURIComponent(email)}`
       );
 
 
