@@ -38,8 +38,9 @@ jobs:
 
       - name: Diagnose Kotlin dependencies
         working-directory: android
-        run: ./gradlew app:dependencies --configuration debugRuntimeClasspath
-
+        run: |
+          ./gradlew app:dependencyInsight --dependency kotlin-stdlib-jdk8 --configuration debugRuntimeClasspath
+          ./gradlew app:dependencyInsight --dependency kotlin-stdlib-jdk7 --configuration debugRuntimeClasspath
       - name: Build debug APK
         working-directory: android
         run: ./gradlew assembleDebug
