@@ -36,6 +36,10 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x android/gradlew
 
+      - name: Diagnose Kotlin dependencies
+        working-directory: android
+        run: ./gradlew app:dependencies --configuration debugRuntimeClasspath
+
       - name: Build debug APK
         working-directory: android
         run: ./gradlew assembleDebug
