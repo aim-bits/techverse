@@ -402,7 +402,7 @@ async function signInWithGoogle() {
       await supabaseClient.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.origin
+          redirectTo: 'https://techverse-theta.vercel.app/'
         }
       });
 
