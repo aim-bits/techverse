@@ -12,7 +12,6 @@
   "description": "",
   "dependencies": {
     "@capacitor/android": "^8.5.2",
-    "@capacitor/cli": "^7.6.9",
     "@capacitor/core": "^8.5.2",
     "@supabase/supabase-js": "^2.109.0",
     "cors": "^2.8.6",
@@ -21,5 +20,8 @@
     "form-data": "^4.0.6",
     "mailgun.js": "^14.0.1",
     "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.2"
   }
 }
